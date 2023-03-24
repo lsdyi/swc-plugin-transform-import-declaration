@@ -1,17 +1,21 @@
-# swc-plugin-transform-import
+# swc-plugin-transform-import-declaration
 Inspired from [babel-plugin-transform-imports](https://www.npmjs.com/package/babel-plugin-transform-imports)
 
 ## Installation
 
 ```bash
-npm i -D swc-plugin-transform-import
+npm i swc-plugin-transform-import-declaration
 ```
+## FYI
+This repo is forked and revised from Ankit Chouhan's [swc-plugin-transform-import](https://github.com/ankitchouhan1020/swc-plugin-transform-import)
+<br>
+make option property `skipDefaultConversion` fully control whether import declaration is named import or default import, because it's more about business logic which should have more flexiblity.
 
 ## Uses with webpack-config
 ```javascript
 // webpack.config.js
 
-const PluginTransformImport = require('swc-plugin-transform-import').default;
+const PluginTransformImport = require('swc-plugin-transform-import-declaration').default;
 
 module: {
     rules: [
@@ -24,7 +28,8 @@ module: {
             plugin: (m) => new PluginTransformImport({
               "lodash": {
                 "transform": "lodash/${member}",
-                "preventFullImport": true
+                "preventFullImport": true,
+                skipDefaultConversion: true
               }
             }).visitProgram(m),
           }
@@ -44,9 +49,9 @@ import { merge } from 'lodash';
 ...into default style imports:
 
 ```javascript
-import Row from 'react-bootstrap/lib/Row';
-import MyGrid from 'react-bootstrap/lib/Grid';
-import merge from 'lodash/merge';
+import { Row } from 'react-bootstrap/lib/Row';
+import { MyGrid } from 'react-bootstrap/lib/Grid';
+import { merge } from 'lodash/merge';
 ```
 
 *Note: this plugin is not restricted to the react-bootstrap and lodash

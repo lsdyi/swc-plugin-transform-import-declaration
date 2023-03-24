@@ -125,7 +125,7 @@ class PluginTransformImport extends Visitor {
                 const { type, local } = specifier;
                 const doesImportedValueExist = type === 'ImportSpecifier' && specifier?.imported?.value;
                 const actualImportVariable = doesImportedValueExist ? specifier?.imported?.value : local.value;
-                const shouldSkipDefaultConversion = skipDefaultConversion && doesImportedValueExist;
+                const shouldSkipDefaultConversion = skipDefaultConversion;
 
                 // Swap out the import with one that doesn't include member imports.
                 // Member imports should each get their own import line

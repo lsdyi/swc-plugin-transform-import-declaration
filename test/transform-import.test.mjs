@@ -2,7 +2,7 @@ import { strict as assert } from 'assert';
 import expect from 'expect';
 
 import { transformSync } from '@swc/core';
-import PluginImport from '../lib/index.js';
+import PluginImport from '../dist/index.js';
 
 describe('PluginImport', function () {
   it('should separate import declaration for named import', function () {
@@ -118,7 +118,7 @@ describe('PluginImport', function () {
     });
 
     assert.equal(output.code, `
-    import Row from 'react-bootstrap/lib/Row';
+    import { Row } from 'react-bootstrap/lib/Row';
     import { Grid as MyGrid } from 'react-bootstrap/lib/Grid';
     `.trimStart().replace(/^\s+/mg, ''));
   });
