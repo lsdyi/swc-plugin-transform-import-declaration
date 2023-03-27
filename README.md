@@ -27,7 +27,7 @@ import { Button } from '@mui/material';
 const _button = require('@mui/material/Button')
 ```
 ---
-‼️💬‼️
+❗❗❗
 **Orginal README is as follows, and the use of the this plugin can also be found here. Just pay more attention of the tricking property skipDefaultConversion, whose implemention is fully changed.**
 
 # swc-plugin-transform-import
