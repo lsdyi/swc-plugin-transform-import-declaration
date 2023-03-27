@@ -1,6 +1,6 @@
 {
   "name": "swc-plugin-transform-import-declaration",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "fix the ast assertion in swc ast for Ankit Chouhan's swc-plugin-transform-import",
   "main": "dist/index.js",
   "scripts": {
