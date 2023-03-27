@@ -1,21 +1,49 @@
 # swc-plugin-transform-import-declaration
+swc-plugin-transform-import declaration is a swc-loader plugin used in webpack for demanding import.
+```javascript
+import Button from '@mui/material';
+// swc-loader equipped with this plugin will compile the above as follows 
+const _button = require('@mui/material/Button')
+```
+The example above is much more simplified, BUT it's clear that for most cases' demanding import for UI library, we just use a plugin to compile importing code slightly more flexibly, i.e. transforming the import declaration, whether it's a [babel-plugin](https://www.npmjs.com/package/babel-plugin-transform-imports) or [swc-plugin]('./').<br>
+This is because if we don't transform the import declaration, the un-transformed declaration will be mean to import whole stuff, hundreds of dependencies in view of dependency tree.<br>
+## About this npm package
+**Forked** and **revised** from Ankit Chouhan's [swc-plugin-transform-import](https://github.com/ankitchouhan1020/swc-plugin-transform-import)
+changed the use of `skipDefaultConversion`, now whether transforming named import into export is now controlled by business logics.
+More specifically, making option property `skipDefaultConversion` fully CONTROL whether import declaration is named import or default import, because it's more about business logic which should have more flexiblity and even diffs from UI library.
+```javascript 
+// Ankit Chouhan's version: swc-plugin-transform-import
+// while setting skipDefaultConversion to false
+import { Button } from '@mui/material';
+// swc-loader equipped with this plugin will compile the above as follows 
+const _button = require('@mui/material/Button').default
+
+// ----------------------------------------------------
+
+// this package's version: swc-plugin-transform-import-declaration
+// while setting skipDefaultConversion to false
+import { Button } from '@mui/material';
+// swc-loader equipped with this plugin will compile the above as follows 
+const _button = require('@mui/material/Button')
+```
+---
+‼️💬‼️
+**Orginal README is as follows, and the use of the this plugin can also be found here. Just pay more attention of the tricking property skipDefaultConversion, whose implemention is fully changed.**
+
+# swc-plugin-transform-import
 Inspired from [babel-plugin-transform-imports](https://www.npmjs.com/package/babel-plugin-transform-imports)
 
 ## Installation
 
 ```bash
-npm i swc-plugin-transform-import-declaration
+npm i -D swc-plugin-transform-import
 ```
-## FYI
-This repo is forked and revised from Ankit Chouhan's [swc-plugin-transform-import](https://github.com/ankitchouhan1020/swc-plugin-transform-import)
-<br>
-make option property `skipDefaultConversion` fully control whether import declaration is named import or default import, because it's more about business logic which should have more flexiblity.
 
 ## Uses with webpack-config
 ```javascript
 // webpack.config.js
 
-const PluginTransformImport = require('swc-plugin-transform-import-declaration').default;
+const PluginTransformImport = require('swc-plugin-transform-import').default;
 
 module: {
     rules: [
@@ -28,8 +56,7 @@ module: {
             plugin: (m) => new PluginTransformImport({
               "lodash": {
                 "transform": "lodash/${member}",
-                "preventFullImport": true,
-                skipDefaultConversion: true
+                "preventFullImport": true
               }
             }).visitProgram(m),
           }
@@ -49,9 +76,9 @@ import { merge } from 'lodash';
 ...into default style imports:
 
 ```javascript
-import { Row } from 'react-bootstrap/lib/Row';
-import { MyGrid } from 'react-bootstrap/lib/Grid';
-import { merge } from 'lodash/merge';
+import Row from 'react-bootstrap/lib/Row';
+import MyGrid from 'react-bootstrap/lib/Grid';
+import merge from 'lodash/merge';
 ```
 
 *Note: this plugin is not restricted to the react-bootstrap and lodash
